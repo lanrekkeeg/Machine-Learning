@@ -1,2 +1,2 @@
 # Machine-Learning
-solve assignmnet 
+contain solved assignmnet of machine learning
