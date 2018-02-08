@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-import sklearn as skt
 import numpy as np
 def calculate_theta_value(theta_0,theta_1, m, data_set):
     # dervative of slope
