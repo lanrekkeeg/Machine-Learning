@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import sklearn as skt
 import numpy as np
 def calculate_theta_value(theta_0,theta_1, m, data_set):
     # dervative of slope
@@ -21,7 +22,8 @@ def gradient_descent():
     theta_0_values = []
     theta_1_values = []
     # load data_set
-    data_set,m = load_data_set("housing.txt","r")
+    data_set = load_data_set("housing.txt","r")
+    m = len(data_set)
     while True:
         theta_values = calculate_theta_value(theta_0,theta_1,m,data_set)
         print (theta_values[0],"-",theta_values[1])
@@ -55,12 +57,11 @@ def gradient_descent():
 
 def load_data_set(file_name, mode):
     list = []
-    length = 0
     with open(file_name,mode) as handle:
         for line in handle:
             a,b = map(float,line.strip().split())
             list.append((a,b))
-            length += 1
-    return list,length
+
+    return list
 
 gradient_descent()
