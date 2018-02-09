@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import sklearn as skt
 import numpy as np
 def calculate_theta_value(theta_0,theta_1, m, data_set):
-    # dervative of slope
+    # derivative of slope
     theta_0_new = 0
     theta_1_new = 0
     for i in range(m):
