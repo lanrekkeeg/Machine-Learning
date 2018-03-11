@@ -18,8 +18,6 @@ def logistic_regressor():
 	alpha = 0.1
 	Adata_set = np.genfromtxt("Data-set_2.csv",delimiter = ',')
 	np.random.shuffle(Adata_set)
-	
-
 	#Separating Training Data ans Test data
 	train,test = Adata_set[:split,:],Adata_set[split:,:]
 	
@@ -36,24 +34,18 @@ def logistic_regressor():
 
 	for i in range(300):
 		Z = np.dot(W,X) + b
-
 		#calculating the sigmoid
 		A = sigmoid(Z)
-		
 		#calculating the derivative W.R to W
 		dz = A - Y
 		error = np.sum(dz**2)
 		print("Training error is ",error)
 		#calculating the derivative 
 		dw = np.dot(X,Z.T)/m
-
 		#calculating derivative W.R to b
 		db = np.sum(dz)/m
-		
-		
 		#updating weights
 		W -= alpha*dw.T
-		
 		#updating broadcas parameter
 		b -= alpha*(db)
 		
