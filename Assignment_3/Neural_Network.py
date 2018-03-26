@@ -22,8 +22,6 @@ def sigmoid_derivativa(X):
 	return sigmoid(X) * (1 - sigmoid(X))
 def forwar_Pass(X,W,b):
 	return np.dot(W,X) + b
-def backward_Pass():
-	return
 def derivative_w_r_t_to_weights(dz, A, m):
 	return (np.dot(dz,A) / m )
 def Getting_Data_Set_Ready():
