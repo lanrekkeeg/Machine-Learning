@@ -6,34 +6,38 @@ def prediction(X,W_L_1,W_L_2,L_1_b,L_2_b,Y):
 	for i in range(100):
 		l = np.array([X[i]])
 		L_1_Z = forwar_Pass(l.T, W_L_1, L_1_b)
-		L_1_A = sigmoid(L_1_Z)
+		L_1_A = tanh(L_1_Z)
 		L_2_Z = forwar_Pass(L_1_A, W_L_2, L_2_b)
-		activation = sigmoid(L_2_Z)
+		activation = tanh(L_2_Z)
 		label = 0 if activation <0.5 else 1
 		print("activation={}; predicted_label={}, true_label={}".format(activation, label, Y[i]))
 
-def tanh(Z):
-	return 
+def tanh_derivative(Z):
+	return 1-np.power(Z,2)
+def tanh(X):
+	return (np.exp(X)-np.exp(-X)) / (np.exp(X)+np.exp(-X))
 def sigmoid(Z):
 	return (1 / (1 + np.exp(-Z)))
 def relu():
 	return
-def sigmoid_derivativa(X):
+def sigmoid_derivative(X):
 	return sigmoid(X) * (1 - sigmoid(X))
 def forwar_Pass(X,W,b):
 	return np.dot(W,X) + b
+def backward_Pass():
+	return
 def derivative_w_r_t_to_weights(dz, A, m):
 	return (np.dot(dz,A) / m )
 def Getting_Data_Set_Ready():
 	b_1 = b_2 = 1
-	split = 150
-	data_set = np.genfromtxt('out.csv',delimiter = ' ')
+	split = 850
+	data_set = np.genfromtxt('Data-set_2.csv',delimiter = ',')
 	np.random.shuffle(data_set)
 	print("Shape of the data is ",data_set.shape)
 	train,test = data_set[:split,:],data_set[split:,:]
 
-	W_1 = np.random.rand(100,324)
-	W_2 = np.random.rand(1,100)
+	W_1 = np.random.rand(40,4)
+	W_2 = np.random.rand(1,40)
 
 	#Now slicing the input the data and output data
 
@@ -50,14 +54,15 @@ def Getting_Data_Set_Ready():
 	return X,Y,test,W_1,W_2,b_1,b_2
 
 def Neural_Network():
+	np.random.seed(0)
 	X,Y,test,W_L_1,W_L_2,L_1_b,L_2_b = Getting_Data_Set_Ready()
 	print(W_L_2.shape)
-	alpha = 0.001
 	m = np.prod(X.shape)
-
-	for i in range(1000):
+	regularization = 0.01
+	learning_rate = 0.01
+	for i in range(10000):
 		L_1_Z = forwar_Pass(X, W_L_1, L_1_b)
-		L_1_A = sigmoid(L_1_Z)
+		L_1_A = np.tanh(L_1_Z)
 		L_2_Z = forwar_Pass(L_1_A, W_L_2, L_2_b)
 		L_2_A = sigmoid(L_2_Z)
 
@@ -69,18 +74,20 @@ def Neural_Network():
 		L_2_dw = derivative_w_r_t_to_weights(L_2_dz, L_1_A.T,m)
 		L_2_db = np.sum(L_2_dz, axis = 1, keepdims = True)
 		#print("shape of W_L_2 ",W_L_2.shape)
-		L_1_dz = np.dot(W_L_2.T,L_2_dz) * sigmoid_derivativa(L_1_Z)
+		L_1_dz = np.dot(W_L_2.T,L_2_dz) * tanh_derivative(L_1_A)
 		L_1_dw = derivative_w_r_t_to_weights(L_1_dz, X.T, m)
 		L_1_db = (np.sum(L_1_dz, axis = 1, keepdims = True))
 		error_1 = np.sum(L_1_dz**2)
 		error_2 = np.sum(L_2_dz**2)
-		#print("For layer 1 error is ",error_1)
-		#print(" For layer 2 error is ", error_2)
-		W_L_1 -=  0.01* W_L_1
-		W_L_2 -=  0.01* W_L_2
+		print("For layer 1 error is ",error_1)
+		print(" For layer 2 error is ", error_2)
+		L_1_dw += regularization*W_L_1
+		L_2_dw += regularization*W_L_2
+		W_L_1 -=  learning_rate* L_1_dw
+		W_L_2 -=  learning_rate* L_2_dw
 
-		L_1_b -= 0.01 * L_1_b
-		L_2_b -= 0.01 * L_2_b
+		L_1_b -= learning_rate * L_1_db
+		L_2_b -= learning_rate * L_2_db
 		
 
 
