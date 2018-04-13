@@ -33,11 +33,12 @@ def Getting_Data_Set_Ready():
 	split = 850
 	data_set = np.genfromtxt('Data-set_2.csv',delimiter = ',')
 	np.random.shuffle(data_set)
+	print("Shape of the data-set ",data_set.shape)
 	print("Shape of the data is ",data_set.shape)
 	train,test = data_set[:split,:],data_set[split:,:]
 
-	W_1 = np.random.rand(40,4)
-	W_2 = np.random.rand(1,40)
+	W_1 = np.random.rand(4,4)
+	W_2 = np.random.rand(1,4)
 
 	#Now slicing the input the data and output data
 
@@ -56,11 +57,10 @@ def Getting_Data_Set_Ready():
 def Neural_Network():
 	np.random.seed(0)
 	X,Y,test,W_L_1,W_L_2,L_1_b,L_2_b = Getting_Data_Set_Ready()
-	print(W_L_2.shape)
-	m = np.prod(X.shape)
+	m = 850 # data points
 	regularization = 0.01
 	learning_rate = 0.01
-	for i in range(10000):
+	for i in range(2000):
 		L_1_Z = forwar_Pass(X, W_L_1, L_1_b)
 		L_1_A = np.tanh(L_1_Z)
 		L_2_Z = forwar_Pass(L_1_A, W_L_2, L_2_b)
@@ -83,8 +83,8 @@ def Neural_Network():
 		print(" For layer 2 error is ", error_2)
 		L_1_dw += regularization*W_L_1
 		L_2_dw += regularization*W_L_2
-		W_L_1 -=  learning_rate* L_1_dw
-		W_L_2 -=  learning_rate* L_2_dw
+		W_L_1 +=  -learning_rate* L_1_dw
+		W_L_2 +=  -learning_rate* L_2_dw
 
 		L_1_b -= learning_rate * L_1_db
 		L_2_b -= learning_rate * L_2_db
