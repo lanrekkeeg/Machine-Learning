@@ -41,7 +41,7 @@ def logistic_regressor():
 		error = np.sum(dz**2)
 		print("Training error is ",error)
 		#calculating the derivative 
-		dw = np.dot(X,Z.T)/m
+		dw = np.dot(X,dz.T)/m
 		#calculating derivative W.R to b
 		db = np.sum(dz)/m
 		#updating weights
